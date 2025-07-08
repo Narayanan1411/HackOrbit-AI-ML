@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>URL Auto Fetcher</title>
-    <style>
-      body { font-family: Arial, sans-serif; margin: 10px; }
-      p { word-break: break-all; }
-    </style>
-  </head>
-  <body>
-    <h3>Current URL</h3>
-    <p id="url">Loading...</p>
-    <script src="popup.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TOS Analyzer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 10px;
+      width: 360px;
+      background: #f0f2f5;
+    }
+    .section {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+      font-size: 15px;
+      margin: 0 0 6px;
+      color: #333;
+    }
+    .section p {
+      font-size: 13.5px;
+      color: #555;
+      margin: 0;
+    }
+    .score-high { color: green; font-weight: bold; }
+    .score-medium { color: orange; font-weight: bold; }
+    .score-low { color: red; font-weight: bold; }
+    #chatInput {
+      width: 100%;
+      padding: 6px;
+      margin-top: 8px;
+      margin-bottom: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    #chatSend {
+      width: 100%;
+      padding: 6px;
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #chatSend:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h2>🔒 Risk Score</h2>
+    <p id="risk">Loading...</p>
+  </div>
+  <div class="section">
+    <h2>📜 TOS Summary</h2>
+    <p id="summary">Analyzing...</p>
+  </div>
+  <div class="section">
+    <h2>🚨 Fraud Check</h2>
+    <p id="fraud">Analyzing...</p>
+  </div>
+  <div class="section">
+    <h2>🔐 Data Access</h2>
+    <p id="data">Analyzing...</p>
+  </div>
+  <div class="section">
+    <h2>🧠 Ask the Chatbot</h2>
+    <input type="text" id="chatInput" placeholder="Ask about the TOS..." />
+    <button id="chatSend">Ask</button>
+    <p id="chatResponse" style="margin-top: 8px; font-style: italic;"></p>
+  </div>
+  <script src="popup.js"></script>
+</body>
 </html>
