@@ -1,17 +1,17 @@
-# TOS Analyzer – Chrome Extension (UI Only)
+# TOS Analyzer – Chrome Extension (UI + Scraper)
 
-This repository contains the **frontend (UI skin)** of a Chrome Extension designed to analyze and simplify website Terms of Service (TOS) and Privacy Policies using AI and ML.
+This repository contains the **frontend (UI skin)** of a Chrome Extension along with a Python-based TOS (Terms of Service) scraper and preprocessor.
 
-🚧 **Note:** The backend and API integrations are currently under development and will be connected soon.
+🚧 **Note:** The backend API integration is in progress. This repo currently includes UI + backend scraping logic.
 
 ---
 
 ## 🔍 What It Does
 
-This extension serves as the **visual interface** for a TOS analysis tool. It:
-
-- Automatically detects and extracts visible policy content from visited websites
-- Sends that content to backend APIs (under development)
+This extension + scraper combo:
+- Automatically detects and extracts visible and hidden TOS/policy content from websites
+- Preprocesses and cleans the TOS content (removing headers, navs, scripts, etc.)
+- Sends that content to backend APIs (coming soon)
 - Will display results like:
   - Risk Score (via IPQualityScore)
   - Fraudulent Clause Detection
@@ -30,6 +30,9 @@ This extension serves as the **visual interface** for a TOS analysis tool. It:
 ├── popup.html            # UI layout for the popup
 ├── popup.js              # JS logic for API requests and rendering
 ├── popup.css             # Styling for popup
+
+/scraper
+└── tos_scraper.py        # Python script for TOS extraction and cleaning
 ```
 
 ---
@@ -39,37 +42,36 @@ This extension serves as the **visual interface** for a TOS analysis tool. It:
 1. Clone or download this repo.
 2. Open **Chrome > Extensions** → Enable **Developer Mode**
 3. Click **Load Unpacked** → select the `extension-root` directory.
-4. Visit any website – the extension will attempt to extract visible policy content.
+4. Run `tos_scraper.py` to extract and preprocess TOS from a target URL.
+5. The extension will eventually connect to backend APIs to display full results.
 
 ---
 
-## 🔌 API Integration (In Progress)
+## 🔌 Backend APIs (Planned)
 
-The backend system (being developed in **FastAPI**) will expose endpoints such as:
-
+These APIs will be exposed via FastAPI and consumed by the extension:
 - `/fraud-check`
 - `/data-access`
 - `/summarize`
 - `/chat`
 - `/ipqualityscore`
 
-Once integrated, the extension will communicate with these endpoints to provide real-time TOS insights.
-
 ---
 
 ## 📌 Status
 
 - ✅ UI Designed
+- ✅ TOS Scraper with Preprocessing Added
 - ⚙️ Backend APIs under development
-- 🚀 API integration and full release coming soon
+- 🚀 API integration and full extension functionality coming soon
 
 ---
 
 ## 🛠️ Tech Stack
 
-- HTML, CSS, JavaScript
-- Chrome Extensions (Manifest V3)
-- FastAPI (for backend, not in this repo)
+- HTML, CSS, JavaScript (Chrome Extension)
+- Python (Scraper using requests + BeautifulSoup)
+- FastAPI (planned backend)
 
 ---
 
