@@ -2,7 +2,13 @@
   "manifest_version": 3,
   "name": "TOS Analyzer AI",
   "version": "1.0",
-  "permissions": ["scripting", "tabs", "activeTab"],
+  "description": "Analyze and summarize Terms of Service pages using AI.",
+  "permissions": [
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -17,5 +23,8 @@
     "default_popup": "popup.html",
     "default_title": "Analyze TOS"
   },
-  "host_permissions": ["<all_urls>"]
+  "host_permissions": ["<all_urls>", "http://localhost:8000/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
 }

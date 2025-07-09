@@ -7,7 +7,6 @@ function extractTOSFromDOM() {
     const text = tag.innerText.trim();
     const lower = text.toLowerCase();
     const wordCount = text.split(/\s+/).length;
-
     if (wordCount < 100) continue;
 
     let score = 0;
@@ -27,11 +26,16 @@ function extractTOSFromDOM() {
 
 function triggerAnalysis() {
   const tosText = extractTOSFromDOM();
+  const url = window.location.href;
 
-  chrome.runtime.sendMessage({
-    action: "analyzeTOS",
-    url: window.location.href,
-    rawTosText: tosText
+  chrome.storage.sync.get("language", (data) => {
+    const lang = data.language || "en";
+    chrome.runtime.sendMessage({
+      action: "analyzeTOS",
+      url,
+      lang,
+      rawTosText: tosText,
+    });
   });
 }
 
