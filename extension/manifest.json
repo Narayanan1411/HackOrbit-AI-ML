@@ -1,21 +1,22 @@
-
 {
   "manifest_version": 3,
-  "name": "TOS Analyzer",
+  "name": "TOS Analyzer AI",
   "version": "1.0",
-  "permissions": ["tabs", "scripting", "activeTab"],
-  "host_permissions": ["<all_urls>"],
+  "description": "Analyzes Terms of Service using Groq + IPQS",
+  "permissions": ["scripting", "tabs"],
   "background": {
     "service_worker": "background.js"
-  },
-  "action": {
-    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Analyze TOS"
+  },
+  "host_permissions": ["<all_urls>"]
 }
-
