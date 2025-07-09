@@ -20,6 +20,19 @@ This project includes a Chrome Extension + FastAPI backend that:
 
 ---
 
+## ❗ Problem Statement
+
+Most users ignore or misunderstand **Terms of Service (TOS)** due to complex legal language, hidden data permissions, or embedded risks. Additionally, TOS documents often vary by region and language, leaving non-English speakers at a disadvantage.
+
+**TOS Analyzer** addresses this by:
+- 🧠 Summarizing dense legal terms using AI
+- 🌍 Supporting multiple languages (e.g., Tamil, Hindi, French)
+- ⚠️ Flagging risky clauses via IPQS fraud detection
+- 💬 Offering a chatbot to answer user-specific questions
+- 🔁 Re-analyzing when the user changes language preference
+
+---
+
 ## 🗂 Folder Structure
 
 ```
@@ -87,6 +100,10 @@ uvicorn main:app --reload
 - **Frontend**: Chrome Extension (HTML, JS)
 - **Backend**: FastAPI, OpenAI (Groq API), IPQS, Google Translate
 - **ML Model**: Groq LLaMA3-70B via Chat API
+
+---
+ **🎥 Demo (Pics & Video)**
+📂 Google Drive Folder: https://drive.google.com/drive/folders/1M_d4_qB5IA4FlGI-1iHvGGjegBVpcuo6?usp=drive_link
 
 ---
 
