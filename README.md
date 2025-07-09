@@ -1,24 +1,22 @@
-# 🛡️ TOS Analyzer – Chrome Extension (UI + Scraper + Pipeline)
+# 🛡️ TOS Analyzer – Chrome Extension (Multilingual AI TOS Inspector)
 
-This repository contains the **Chrome Extension UI** along with a **Python-based TOS scraper**, **preprocessing logic**, and an **injected pipeline** to detect and analyze Terms of Service (TOS) and Privacy Policy content from websites.
+This repository contains the **Chrome Extension UI** along with a **Python-based FastAPI backend**, **scraper**, and a **pipeline** to detect, analyze, and summarize Terms of Service (TOS) content from websites using AI.
 
-> ✅ Extension now works end-to-end with visible scraping pipeline injected! Backend APIs are in progress.
+> ✅ Now supports **multilingual translation**, **chatbot Q&A**, **risk/fraud detection**, and **dynamic reanalysis** when language changes.
 
 ---
 
 ## 🔍 What It Does
 
-This extension + scraper pipeline:
+This project includes a Chrome Extension + FastAPI backend that:
 
-- 🧠 Automatically **detects** and **extracts** TOS/Policy content (both visible and hidden)
-- 🧹 **Cleans** the extracted content by removing navigation, headers, footers, and scripts
-- 🛰️ **Injects a pipeline** that prepares the content for backend processing
-- 🚧 (Upcoming) **Sends cleaned TOS content** to backend APIs for:
-  - Risk scoring via IPQualityScore
-  - Fraudulent clause detection
-  - Data access evaluation
-  - Summarization
-  - Interactive Q&A
+- 🔎 **Automatically detects and extracts** visible or linked TOS content from web pages
+- 🧹 **Cleans** boilerplate and noise from TOS documents
+- 🌍 **Supports multilingual summaries** (e.g. Tamil, Hindi, French, Spanish)
+- 🛡️ **Performs fraud and risk detection** via IPQualityScore
+- 📑 **Summarizes** and simplifies legal text using Groq's LLaMA 3 70B model
+- 🧠 **Enables Q&A chatbot** for users to ask questions about the TOS
+- 🔁 **Re-analyzes TOS dynamically** when language is changed via popup dropdown
 
 ---
 
@@ -27,13 +25,14 @@ This extension + scraper pipeline:
 ```
 /extension
 ├── manifest.json         # Chrome Extension configuration
-├── content.js            # Injected script for scraping visible/hidden content
+├── background.js         # Handles message passing and backend requests
+├── content.js            # Extracts TOS text from DOM automatically
 ├── popup.html            # Popup UI layout
-├── popup.js              # JS logic to handle extension interactions
-├── popup.css             # UI styling for popup
+├── popup.js              # JS logic for rendering, chatbot, and translation
+├── popup.css             # UI styling
 
 /backend
-└── main.py               # Python backend script for TOS scraping, cleaning, and serving
+└── main.py               # FastAPI backend with Groq + IPQS + Translation
 
 /model
 └── fine-tuned.ipynb      # Jupyter notebook containing the fine-tuned model
@@ -48,57 +47,46 @@ This extension + scraper pipeline:
 1. **Clone or download** this repository.
 2. Open **Chrome > Extensions** → Enable **Developer Mode**.
 3. Click **Load Unpacked** → select the `extension` folder.
-4. Use the extension popup to trigger content extraction on any active webpage.
+4. Navigate to any website, then open the extension to see the TOS analysis.
 
 ### 🧼 Running the Backend
 
 1. Navigate to the `/backend` folder.
-2. Run the backend server (FastAPI recommended for full integration):
+2. Install dependencies (e.g. `fastapi`, `uvicorn`, `requests`, `openai`, `googletrans==4.0.0rc1`).
+3. Run the backend server:
 
 ```bash
-python main.py
+uvicorn main:app --reload
 ```
 
-### 🔬 (Optional) Exploring the Fine-Tuned Model
+---
 
-Navigate to `/model/fine-tuned.ipynb` to view or run the fine-tuned model used for TOS analysis.
+## 🧠 Backend Features
+
+| Endpoint     | Description                                      |
+|--------------|--------------------------------------------------|
+| `/analyze`   | Accepts URL + TOS text (optional) and returns:   |
+|              | - summary, fraud check, accepted/rejected data   |
+|              | - translated output based on selected language   |
+| `/ask`       | Accepts TOS-related question and answers it via chatbot |
 
 ---
 
-## 🔌 Backend APIs (Coming Soon)
+## 🚀 New Features (2025 Update)
 
-The following API endpoints will be integrated into the extension via a FastAPI backend:
-
-| Endpoint         | Purpose                                |
-|------------------|----------------------------------------|
-| `/fraud-check`   | Detects suspicious or fraudulent clauses |
-| `/data-access`   | Evaluates what personal data is accessed |
-| `/summarize`     | Generates a concise summary of the TOS |
-| `/chat`          | Enables interactive Q&A about the TOS |
-| `/ipqualityscore`| Integrates external reputation scoring |
-
----
-
-## 🚦 Status
-
-| Feature                            | Status     |
-|------------------------------------|------------|
-| UI Design                          | ✅ Complete |
-| Chrome Extension Injection         | ✅ Complete |
-| TOS Scraping (Visible + Hidden)    | ✅ Complete |
-| Preprocessing & Cleaning Pipeline  | ✅ Complete |
-| Backend API Design                 | ⚙ In Progress |
-| API Integration into Extension     | 🔜 Coming Soon |
+- 🌍 **Multilingual Support** (Tamil, Hindi, French, Spanish, etc.)
+- 🧠 **AI Chatbot Q&A** powered by Groq (LLaMA 3 70B)
+- ⚠️ **IPQS Domain Risk Scoring** with suspicious flags
+- 💾 **Caching** of raw extracted TOS per URL
+- 🔁 **Dynamic Translation + Reanalysis** on language change
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScript (Chrome Extension)
-- **Scraping & Cleaning**: Python, `requests`, `BeautifulSoup`
-- **Backend (Planned)**: FastAPI (Python)
-- **Risk Evaluation**: IPQualityScore API
-- **Model Training**: Jupyter Notebook (fine-tuned)
+- **Frontend**: Chrome Extension (HTML, JS)
+- **Backend**: FastAPI, OpenAI (Groq API), IPQS, Google Translate
+- **ML Model**: Groq LLaMA3-70B via Chat API
 
 ---
 
