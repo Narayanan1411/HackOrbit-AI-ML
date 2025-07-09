@@ -8,8 +8,8 @@ import openai
 import time
 
 # === CONFIG ===
-GROQ_API_KEY = "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"  # Replace with your Groq API key
-IPQS_API_KEY = "pHUr6XdwWibP2VH68gFaMxBrjis40tbL"
+GROQ_API_KEY = "xxxx"  # Replace with your Groq API key
+IPQS_API_KEY = "yyyy"
 openai.api_key = GROQ_API_KEY
 openai.api_base = "https://api.groq.com/openai/v1"
 openai.api_type = "open_ai"
