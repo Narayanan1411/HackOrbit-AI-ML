@@ -1,80 +1,120 @@
-# TOS Analyzer – Chrome Extension (UI + Scraper)
+# 🛡️ TOS Analyzer – Chrome Extension (UI + Scraper + Pipeline)
 
-This repository contains the **frontend (UI skin)** of a Chrome Extension along with a Python-based TOS (Terms of Service) scraper and preprocessor.
+This repository contains the **Chrome Extension UI** along with a **Python-based TOS scraper**, **preprocessing logic**, and an **injected pipeline** to detect and analyze Terms of Service (TOS) and Privacy Policy content from websites.
 
-🚧 **Note:** The backend API integration is in progress. This repo currently includes UI + backend scraping logic.
+> ✅ Extension now works end-to-end with visible scraping pipeline injected! Backend APIs are in progress.
 
 ---
 
 ## 🔍 What It Does
 
-This extension + scraper combo:
-- Automatically detects and extracts visible and hidden TOS/policy content from websites
-- Preprocesses and cleans the TOS content (removing headers, navs, scripts, etc.)
-- Sends that content to backend APIs (coming soon)
-- Will display results like:
-  - Risk Score (via IPQualityScore)
-  - Fraudulent Clause Detection
-  - Data Access Evaluation
-  - Concise Summarization
-  - Interactive Q&A about the TOS
+This extension + scraper pipeline:
+
+- 🧠 Automatically **detects** and **extracts** TOS/Policy content (both visible and hidden)
+- 🧹 **Cleans** the extracted content by removing navigation, headers, footers, and scripts
+- 🛰️ **Injects a pipeline** that prepares the content for backend processing
+- 🚧 (Upcoming) **Sends cleaned TOS content** to backend APIs for:
+  - Risk scoring via IPQualityScore
+  - Fraudulent clause detection
+  - Data access evaluation
+  - Summarization
+  - Interactive Q&A
 
 ---
 
-## 🗂️ Folder Structure
+## 🗂 Folder Structure
 
 ```
-/extension-root
-├── manifest.json         # Extension configuration
-├── content.js            # Injected into web pages to extract content
-├── popup.html            # UI layout for the popup
-├── popup.js              # JS logic for API requests and rendering
-├── popup.css             # Styling for popup
+/extension
+├── manifest.json         # Chrome Extension configuration
+├── content.js            # Injected script for scraping visible/hidden content
+├── popup.html            # Popup UI layout
+├── popup.js              # JS logic to handle extension interactions
+├── popup.css             # UI styling for popup
 
-/scraper
-└── tos_scraper.py        # Python script for TOS extraction and cleaning
+/backend
+└── main.py               # Python backend script for TOS scraping, cleaning, and serving
+
+/model
+└── fine-tuned.ipynb      # Jupyter notebook containing the fine-tuned model
 ```
 
 ---
 
-## 🧪 How to Use (Development Mode)
+## ⚙️ How to Use (Development Mode)
 
-1. Clone or download this repo.
-2. Open **Chrome > Extensions** → Enable **Developer Mode**
-3. Click **Load Unpacked** → select the `extension-root` directory.
-4. Run `tos_scraper.py` to extract and preprocess TOS from a target URL.
-5. The extension will eventually connect to backend APIs to display full results.
+### 🧪 Setting up the Extension
 
----
+1. **Clone or download** this repository.
+2. Open **Chrome > Extensions** → Enable **Developer Mode**.
+3. Click **Load Unpacked** → select the `extension` folder.
+4. Use the extension popup to trigger content extraction on any active webpage.
 
-## 🔌 Backend APIs (Planned)
+### 🧼 Running the Backend
 
-These APIs will be exposed via FastAPI and consumed by the extension:
-- `/fraud-check`
-- `/data-access`
-- `/summarize`
-- `/chat`
-- `/ipqualityscore`
+1. Navigate to the `/backend` folder.
+2. Run the backend server (FastAPI recommended for full integration):
 
----
+```bash
+python main.py
+```
 
-## 📌 Status
+### 🔬 (Optional) Exploring the Fine-Tuned Model
 
-- ✅ UI Designed
-- ✅ TOS Scraper with Preprocessing Added
-- ⚙️ Backend APIs under development
-- 🚀 API integration and full extension functionality coming soon
+Navigate to `/model/fine-tuned.ipynb` to view or run the fine-tuned model used for TOS analysis.
 
 ---
 
-## 🛠️ Tech Stack
+## 🔌 Backend APIs (Coming Soon)
 
-- HTML, CSS, JavaScript (Chrome Extension)
-- Python (Scraper using requests + BeautifulSoup)
-- FastAPI (planned backend)
+The following API endpoints will be integrated into the extension via a FastAPI backend:
+
+| Endpoint         | Purpose                                |
+|------------------|----------------------------------------|
+| `/fraud-check`   | Detects suspicious or fraudulent clauses |
+| `/data-access`   | Evaluates what personal data is accessed |
+| `/summarize`     | Generates a concise summary of the TOS |
+| `/chat`          | Enables interactive Q&A about the TOS |
+| `/ipqualityscore`| Integrates external reputation scoring |
 
 ---
 
-## 📄 License
+## 🚦 Status
 
-MIT License – feel free to build on top of it.
+| Feature                            | Status     |
+|------------------------------------|------------|
+| UI Design                          | ✅ Complete |
+| Chrome Extension Injection         | ✅ Complete |
+| TOS Scraping (Visible + Hidden)    | ✅ Complete |
+| Preprocessing & Cleaning Pipeline  | ✅ Complete |
+| Backend API Design                 | ⚙ In Progress |
+| API Integration into Extension     | 🔜 Coming Soon |
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: HTML, CSS, JavaScript (Chrome Extension)
+- **Scraping & Cleaning**: Python, `requests`, `BeautifulSoup`
+- **Backend (Planned)**: FastAPI (Python)
+- **Risk Evaluation**: IPQualityScore API
+- **Model Training**: Jupyter Notebook (fine-tuned)
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** – feel free to fork, extend, and build upon it!
+
+---
+
+## 👨‍💻 Author
+
+Made with 💡 by Sparktons
+
+---
+
+## 📬 Contact
+
+For issues, suggestions, or collaborations:  
+📧 naraad060@rmkcet.ac.in
