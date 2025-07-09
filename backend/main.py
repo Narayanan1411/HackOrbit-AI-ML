@@ -213,7 +213,7 @@ def ask(input: AskInput):
         translated_question = input.question
 
     tos = truncate_to_token_limit(tos_cache[input.url], max_tokens=2000)
-    reply_en = groq_query(f"TOS:\n{tos}\n\nUser's Question:\n{translated_question}")
+    reply_en = groq_query(f"TOS:\n{tos}\n\nkeep it simple and short, User's Question:\n{translated_question}")
 
     try:
         reply_local = translator.translate(reply_en, dest=user_lang).text if user_lang != "en" else reply_en
