@@ -1,45 +1,50 @@
-let globalUrl = "";
+function updateUI(data) {
+  const risk = document.getElementById("risk");
+  const summary = document.getElementById("summary");
+  const fraud = document.getElementById("fraud");
+  const dataAccess = document.getElementById("data");
 
-// Receive data from background and update popup UI
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "showResults") {
-    const data = request.data;
-    globalUrl = data.url;
+  risk.innerHTML = `Risk Score: <span class="${
+    data.risk_score > 70 ? "score-low" : data.risk_score > 40 ? "score-medium" : "score-high"
+  }">${data.risk_score}</span> (Suspicious: ${data.suspicious_domain ? "Yes" : "No"})`;
 
-    const risk = data.risk_score ?? 0;
-    let riskClass = "score-high";
-    if (risk > 60) riskClass = "score-medium";
-    if (risk > 80) riskClass = "score-low";
+  summary.textContent = data.summary || "No summary available.";
+  fraud.textContent = data.fraud || "No fraud check info.";
+  dataAccess.textContent =
+    `Accepted: ${data.accepted?.join(", ") || "None"}\nRejected: ${data.rejected?.join(", ") || "None"}`;
+}
 
-    document.getElementById("risk").innerHTML = `<span class="${riskClass}">Score: ${risk}</span>`;
-    document.getElementById("summary").innerText = data.summary || "No summary found.";
-    document.getElementById("fraud").innerText = data.fraud || "No fraud analysis.";
-    document.getElementById("data").innerText =
-      `Accepted: ${data.accepted?.join(", ") || "None"}, Rejected: ${data.rejected?.join(", ") || "None"}`;
-  }
-});
+function fetchDataAndRender() {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const url = tabs[0].url;
 
-// Handle chatbot interaction
-document.getElementById("chatSend").addEventListener("click", () => {
-  const question = document.getElementById("chatInput").value.trim();
-  if (!question) return;
+    chrome.runtime.sendMessage({ action: "getTOSResult", url }, (data) => {
+      if (!data) {
+        document.getElementById("summary").textContent = "Analyzing... (please wait or reload page)";
+        return;
+      }
+      updateUI(data);
 
-  document.getElementById("chatResponse").innerText = "Thinking...";
+      document.getElementById("chatSend").addEventListener("click", () => {
+        const question = document.getElementById("chatInput").value.trim();
+        if (!question) return;
 
-  fetch("http://localhost:8000/ask", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: globalUrl, question })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
-  })
-  .then(data => {
-    document.getElementById("chatResponse").innerText = data.answer || "No answer found.";
-  })
-  .catch(err => {
-    console.error("[Chat Error]", err);
-    document.getElementById("chatResponse").innerText = "Error getting answer.";
+        fetch("http://localhost:8000/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, question })
+        })
+          .then(res => res.json())
+          .then(json => {
+            document.getElementById("chatResponse").textContent = json.answer;
+          })
+          .catch(err => {
+            document.getElementById("chatResponse").textContent = "Chatbot failed to respond.";
+            console.error("Chatbot error:", err);
+          });
+      });
+    });
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", fetchDataAndRender);

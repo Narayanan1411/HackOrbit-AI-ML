@@ -2,8 +2,7 @@
   "manifest_version": 3,
   "name": "TOS Analyzer AI",
   "version": "1.0",
-  "description": "Analyzes Terms of Service using Groq + IPQS",
-  "permissions": ["scripting", "tabs"],
+  "permissions": ["scripting", "tabs", "activeTab"],
   "background": {
     "service_worker": "background.js"
   },
